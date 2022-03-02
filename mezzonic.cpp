@@ -285,12 +285,13 @@ void print_solution(int state, unordered_map <int, int> left, unordered_map <int
 
 	reverse(all(answer));
 	
+
 	head = right[state];
 	while(head != 0) {
 		answer.pb(head);
 		head = right[head];
 	}
-
+	if(state != 0)
 	answer.pb(0);
 	answer.pb(0);
 
@@ -312,6 +313,12 @@ unordered_map <int, int> bfs(int startState, int type, unordered_map <int, int> 
 	while(!q.empty()) {
 		auto tmp = q.front(); q.pop();
 		
+		if(tmp.first.state == 0 && type == 0) {
+			print_solution(tmp.first.state, prev, record);
+			prev.clear();
+			return prev;
+		}
+
 		if(record[tmp.first.state]) {
 			// we found a solution
 			
@@ -350,6 +357,7 @@ void solve() {
 
 	unordered_map <int, int> record;
 	record = bfs(startState, 0, record);
+	if(record.size() != 0)
 	bfs(0, 1, record);
 }
 
